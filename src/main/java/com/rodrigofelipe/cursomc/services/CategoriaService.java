@@ -24,10 +24,15 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
-	
+	/* metado Categoria para inserir no BD. ID for NULL e inserido, caso ao contrario não inserir*/
 	public Categoria insert(Categoria obj) {
-		obj.setId(null);
+		obj.setId(null); 
 		return repo.save(obj);
 	}
-
+	/* metado Categoria para UPDATE no BD*/
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return repo.save(obj);
+	}
+	
 }
