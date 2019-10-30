@@ -2,8 +2,8 @@ package com.rodrigofelipe.cursomc.services;
 
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,15 +24,33 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
-	/* metado Categoria para inserir no BD. ID for NULL e inserido, caso ao contrario não inserir*/
+
+	/*
+	 * metado Categoria para inserir no BD. ID for NULL e inserido, caso ao
+	 * contrario não inserir
+	 */
 	public Categoria insert(Categoria obj) {
-		obj.setId(null); 
+		obj.setId(null);
 		return repo.save(obj);
 	}
-	/* metado Categoria para UPDATE no BD*/
+
+	/* metado Categoria para UPDATE no BD */
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
 	}
-	
+
+	/* metado Categoria para DELETE no BD */
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} 
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Não é possivel excluir uma categoria que possiu produtos");
+
+		}
+
+	}
+
 }
