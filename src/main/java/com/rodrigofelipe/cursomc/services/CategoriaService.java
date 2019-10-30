@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rodrigofelipe.cursomc.domain.Categoria;
 import com.rodrigofelipe.cursomc.repositories.CategoriaRepository;
+import com.rodrigofelipe.cursomc.services.exceptions.DataIntegrityException;
 import com.rodrigofelipe.cursomc.services.exceptions.ObjectNotFoundException;
+
+import antlr.collections.List;
 
 @RestController
 @Service
@@ -45,11 +48,18 @@ public class CategoriaService {
 		find(id);
 		try {
 			repo.deleteById(id);
-		} 
-		catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("Não é possivel excluir uma categoria que possiu produtos");
 
 		}
+
+		catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui produtos");
+
+		}
+
+	}
+	/* metado para listar todas as Categoria  BD */
+	public java.util.List<Categoria> findAll() {
+		return (java.util.List<Categoria>) repo.findAll();
 
 	}
 
