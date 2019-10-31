@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,8 +14,6 @@ import com.rodrigofelipe.cursomc.domain.Categoria;
 import com.rodrigofelipe.cursomc.repositories.CategoriaRepository;
 import com.rodrigofelipe.cursomc.services.exceptions.DataIntegrityException;
 import com.rodrigofelipe.cursomc.services.exceptions.ObjectNotFoundException;
-
-import antlr.collections.List;
 
 @RestController
 @Service
@@ -57,10 +58,16 @@ public class CategoriaService {
 		}
 
 	}
-	/* metado para listar todas as Categoria  BD */
+
+	/* metado para listar todas as Categoria BD */
 	public java.util.List<Categoria> findAll() {
 		return (java.util.List<Categoria>) repo.findAll();
 
+	}
+	/* Metado Page<Categoria> findPage ordenas todos os dados no BD, mostrando os números de elementos da página*/
+	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		return repo.findAll(pageRequest);
 	}
 
 }
