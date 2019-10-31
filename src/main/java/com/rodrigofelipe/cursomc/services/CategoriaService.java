@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rodrigofelipe.cursomc.domain.Categoria;
+import com.rodrigofelipe.cursomc.dto.CategoriaDTO;
 import com.rodrigofelipe.cursomc.repositories.CategoriaRepository;
 import com.rodrigofelipe.cursomc.services.exceptions.DataIntegrityException;
 import com.rodrigofelipe.cursomc.services.exceptions.ObjectNotFoundException;
@@ -64,10 +65,18 @@ public class CategoriaService {
 		return (java.util.List<Categoria>) repo.findAll();
 
 	}
-	/* Metado Page<Categoria> findPage ordenas todos os dados no BD, mostrando os números de elementos da página*/
+
+	/*
+	 * Metado Page<Categoria> findPage ordenas todos os dados no BD, mostrando os
+	 * números de elementos da página
+	 */
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
 
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		return new Categoria(objDto.getId(), objDto.getNome());
+
+	}
 }
