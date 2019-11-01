@@ -2,6 +2,8 @@ package com.rodrigofelipe.cursomc.services;
 
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -9,9 +11,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.rodrigofelipe.cursomc.domain.Cidade;
 import com.rodrigofelipe.cursomc.domain.Cliente;
+import com.rodrigofelipe.cursomc.domain.Endereco;
+import com.rodrigofelipe.cursomc.domain.enums.TipoCliente;
 import com.rodrigofelipe.cursomc.dto.ClienteDTO;
+import com.rodrigofelipe.cursomc.dto.ClienteNewDTO;
 import com.rodrigofelipe.cursomc.repositories.ClienteRepository;
+import com.rodrigofelipe.cursomc.repositories.EnderecoRepository;
 import com.rodrigofelipe.cursomc.services.exceptions.DataIntegrityException;
 import com.rodrigofelipe.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -20,6 +27,9 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repo;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	/* SE obj ID for encontrado retorna ID, SE NAO return ObjectNotFoundException */
 	public Cliente find(Integer id) {
@@ -32,9 +42,13 @@ public class ClienteService {
 	 * metado Cliente para inserir no BD. ID for NULL e inserido, caso ao contrario
 	 * não inserir
 	 */
+	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		return repo.save(obj);
+		obj = repo.save(obj);
+		enderecoRepository.saveAll(obj.getEnderecos());
+		return obj;
+
 	}
 
 	/* metado Cliente para UPDATE no BD */
@@ -77,6 +91,28 @@ public class ClienteService {
 
 	public Cliente fromDTO(ClienteDTO objDto) {
 		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null);
+
+	}
+
+	public Cliente fromDTO(ClienteNewDTO objDto) {
+		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
+				TipoCliente.toEnum(objDto.getTipo()));
+		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
+		Endereco end = new Endereco(null, objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(),
+				objDto.getBairro(), objDto.getCep(), cli, cid);
+		cli.getEnderecos().add(end);/* cli.getEnderecos().add(end) o cliente reconhece o endereço */
+		cli.getTelefones().add(objDto.getTelefone1());
+		if (objDto.getTelefone2() != null) { /* getTelefone2() != null, sera adicionado */
+			cli.getTelefones().add(objDto.getTelefone2());
+
+		}
+
+		if (objDto.getTelefone3() != null) {
+			cli.getTelefones().add(objDto.getTelefone3());
+
+		}
+
+		return cli;
 
 	}
 
