@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -34,9 +35,8 @@ public class Cliente implements Serializable {
 	/* Declarando o obj da Classe enum Pedido */
 	private Integer tipo;
 
-	/* Declarando lista do obj da Classe Endereco */
-
-	@OneToMany(mappedBy = "cliente")
+	/* Declarando lista do obj da Classe Endereco..CascadeType.ALL tem a funcionalidade de deletar os cliente e os endereços  */
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) 
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	/* Telefone esta representado por um conjunto de STRING */
@@ -46,7 +46,7 @@ public class Cliente implements Serializable {
 
 	/* Declarando o obj da Classe Pedido */
 	@JsonIgnore
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente") 
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	// Declarando um construtor padrão
