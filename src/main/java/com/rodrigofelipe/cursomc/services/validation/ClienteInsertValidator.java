@@ -19,13 +19,17 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 
 	@Autowired
 	private ClienteRepository repo;
-		
+
 	@Override
 	public void initialize(ClienteInsert ann) {
 
 	}
-	/*Metado isValid verificar as validações dos campos preenchidos TRUE for valido, FALSE não valido. SE TipoCliente for diferente
-	 *  isValidCPF, CPF será inválido  */
+
+	/*
+	 * Metado isValid verificar as validações dos campos preenchidos TRUE for
+	 * valido, FALSE não valido. SE TipoCliente for diferente isValidCPF, CPF será
+	 * inválido. /*Validação do email caso já existente
+	 */
 	@Override
 	public boolean isValid(ClienteNewDTO objDto, ConstraintValidatorContext context) {
 		List<FieldMessage> list = new ArrayList<>();
@@ -38,7 +42,7 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
 
 		}
-		/*Validação do email caso já existente*/
+
 		Cliente aux = repo.findByEmail(objDto.getEmail());
 		if (aux != null) {
 			list.add(new FieldMessage("email", "Email já existente"));
