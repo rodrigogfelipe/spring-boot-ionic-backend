@@ -21,12 +21,14 @@ import com.rodrigofelipe.cursomc.domain.Categoria;
 import com.rodrigofelipe.cursomc.dto.CategoriaDTO;
 import com.rodrigofelipe.cursomc.services.CategoriaService;
 
-@RestController
+@RestController /*indica que este controller por padrão responderá usando, por padrão, o formato JSON.*/
+
+/*Usamos para mapear as urls dos nossos métodos, neste caso, todos os métodos desse controller terão como base o “/categorias”*/
 @RequestMapping(value = "/categorias")
 public class CategoriaResource {
 
 	/* Instanciando a classe CategoriaService */
-	@Autowired
+	@Autowired /*@Autowired: Com essa anotação indicamos que os parâmetros do nosso construtor serão injetados*/
 	private CategoriaService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

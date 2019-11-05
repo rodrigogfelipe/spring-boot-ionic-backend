@@ -12,7 +12,7 @@ import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-//Entity e uma classe entidade que sera criada no BD
+//Entity a classe Categoria é uma entidade que será mapeada no nosso banco de dados
 @Entity
 //Serializable os obj se transformam em bytes
 public class Categoria implements Serializable {
@@ -20,7 +20,7 @@ public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY) /*O atributo anotado será a primary key da tabela e será gerado automaticamente usando a estratégia IDENTITY*/
 	private Integer id;
 	private String nome;
 	

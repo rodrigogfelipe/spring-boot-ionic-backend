@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.rodrigofelipe.cursomc.domain.enums.EstadoPagamento;
 
 @Entity
-@JsonTypeName("pagamentoComBoleto") 
+@JsonTypeName("pagamentoComBoleto") /*JsonTypeName e usado para ligar o nome lógico que a classe anotada possui*/ 
 public class PagamentoComBoleto extends Pagamento {
 	private static final long serialVersionUID = 1L;
 	
@@ -25,11 +25,8 @@ public class PagamentoComBoleto extends Pagamento {
 
 	public PagamentoComBoleto(Integer id, EstadoPagamento estado, Pedido pedido, Date dataVencimento,
 			Date dataPagamento) {
-
 		super(id, estado, pedido);
-
 		this.dataPagamento = dataPagamento;
-
 		this.dataVencimento = dataVencimento;
 
 	}

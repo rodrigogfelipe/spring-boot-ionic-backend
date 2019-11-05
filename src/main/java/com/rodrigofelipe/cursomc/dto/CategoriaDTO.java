@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.rodrigofelipe.cursomc.domain.Categoria;
 
+/*DTO (Data Transfer Object), que basicamente é uma classe com atributos simples, que usamos para otimizar a comunicação entre o client e o 
+ * servidor.Nossa classe DTO pode receber atributos e, assim, podemos manipulá-los da forma que quisermos.*/
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
