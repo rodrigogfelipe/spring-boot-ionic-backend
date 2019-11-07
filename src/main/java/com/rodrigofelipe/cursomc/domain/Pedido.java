@@ -146,7 +146,6 @@ public class Pedido implements Serializable {
 	}
 
 	@Override
-
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -175,7 +174,7 @@ public class Pedido implements Serializable {
 	@Override
 	public String toString() {
 		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 		StringBuilder builder = new StringBuilder();
