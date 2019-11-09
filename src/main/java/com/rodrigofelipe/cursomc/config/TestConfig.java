@@ -13,7 +13,6 @@ import com.rodrigofelipe.cursomc.services.MockEmailService;
 
 @Configuration
 @Profile("test")
-
 public class TestConfig {
 
 	@Autowired

@@ -31,10 +31,10 @@ public class ItemPedido implements Serializable {
 		super();
 		id.setPedido(pedido);
 		id.setProduto(produto);
-		this.id = id;
 		this.desconto = desconto;
 		this.quantidade = quantidade;
 		this.preco = preco;
+
 	}
 
 	/* Metado getSubTotal para calcular Subtotal dos pedidos */
@@ -117,12 +117,14 @@ public class ItemPedido implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	/*NumberFormat formato (dinheiro)*/
+	/* Imprimir o nome do produto */
 	@Override
 	public String toString() {
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")); /*NumberFormat formato (dinheiro)*/
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
 		StringBuilder builder = new StringBuilder();
-		builder.append(getProduto().getNome()); /* Imprimir o nome do produto */
+		builder.append(getProduto().getNome());
 		builder.append(", Qte: ");
 		builder.append(getQuantidade());
 		builder.append(", Preço unitário: ");
@@ -135,3 +137,4 @@ public class ItemPedido implements Serializable {
 	}
 
 }
+
