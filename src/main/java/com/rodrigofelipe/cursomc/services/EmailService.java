@@ -1,9 +1,7 @@
 package com.rodrigofelipe.cursomc.services;
 
 import javax.mail.internet.MimeMessage;
-
 import org.springframework.mail.SimpleMailMessage;
-
 import com.rodrigofelipe.cursomc.domain.Pedido;
 
 public interface EmailService {

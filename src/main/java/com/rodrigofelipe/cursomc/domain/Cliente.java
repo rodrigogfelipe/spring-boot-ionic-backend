@@ -28,16 +28,22 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	
-	@Column(unique=true)
+
+	@Column(unique = true)
 	private String email;
 	private String cpfOuCnpj;
 
 	/* Declarando o obj da Classe enum Pedido */
 	private Integer tipo;
+	
+	@JsonIgnore
+	private String senha;
 
-	/* Declarando lista do obj da Classe Endereco..CascadeType.ALL tem a funcionalidade de deletar os cliente e os endereços  */
-	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL) 
+	/*
+	 * Declarando lista do obj da Classe Endereco..CascadeType.ALL tem a
+	 * funcionalidade de deletar os cliente e os endereços
+	 */
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	/* Telefone esta representado por um conjunto de STRING */
@@ -47,7 +53,7 @@ public class Cliente implements Serializable {
 
 	/* Declarando o obj da Classe Pedido */
 	@JsonIgnore
-	@OneToMany(mappedBy = "cliente") 
+	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 
 	// Declarando um construtor padrão
@@ -55,13 +61,14 @@ public class Cliente implements Serializable {
 
 	}
 
-	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo) {
+	public Cliente(Integer id, String nome, String email, String cpfOuCnpj, TipoCliente tipo, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
 		this.cpfOuCnpj = cpfOuCnpj;
-		this.tipo = (tipo==null) ? null : tipo.getCod();
+		this.tipo = (tipo == null) ? null : tipo.getCod();
+		this.senha = senha;
 
 	}
 
@@ -145,6 +152,14 @@ public class Cliente implements Serializable {
 
 	}
 
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 	@Override
 
 	public int hashCode() {
@@ -160,7 +175,6 @@ public class Cliente implements Serializable {
 	}
 
 	@Override
-
 	public boolean equals(Object obj) {
 
 		if (this == obj)
