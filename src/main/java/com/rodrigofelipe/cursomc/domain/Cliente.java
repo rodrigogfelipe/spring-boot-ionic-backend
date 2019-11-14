@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rodrigofelipe.cursomc.domain.enums.Perfil;
 import com.rodrigofelipe.cursomc.domain.enums.TipoCliente;
 
 @Entity
@@ -35,7 +38,7 @@ public class Cliente implements Serializable {
 
 	/* Declarando o obj da Classe enum Pedido */
 	private Integer tipo;
-	
+
 	@JsonIgnore
 	private String senha;
 
@@ -51,6 +54,11 @@ public class Cliente implements Serializable {
 	@CollectionTable(name = "TELEFONE")
 	private Set<String> telefones = new HashSet<>();
 
+	/* Classe Perfile enum */
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
+	private Set<Integer> perfis = new HashSet<>();
+
 	/* Declarando o obj da Classe Pedido */
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
@@ -58,6 +66,7 @@ public class Cliente implements Serializable {
 
 	// Declarando um construtor padrão
 	public Cliente() {
+		addPerfil(Perfil.CLIENTE);
 
 	}
 
@@ -69,6 +78,7 @@ public class Cliente implements Serializable {
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo == null) ? null : tipo.getCod();
 		this.senha = senha;
+		addPerfil(Perfil.CLIENTE);
 
 	}
 
@@ -159,11 +169,20 @@ public class Cliente implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+	/*SETTER da CLasse PErfil tipo ENUM GetPerfil*/
+	public Set<Perfil> getPerfis() {
+		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+
+	}
+
+	public void addPerfil(Perfil perfil) {
+		perfis.add(perfil.getCod());
+
+	}
 
 	@Override
-
 	public int hashCode() {
-
 		final int prime = 31;
 
 		int result = 1;
