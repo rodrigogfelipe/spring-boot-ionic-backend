@@ -73,7 +73,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req,
 
-			HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+		HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
 		res.addHeader("Authorization", "Bearer " + token);
@@ -98,13 +98,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 			long date = new Date().getTime();
 			return "{\"timestamp\": " + date + ", "
-
 					+ "\"status\": 401, "
-
 					+ "\"error\": \"Não autorizado\", "
-
 					+ "\"message\": \"Email ou senha inválidos\", "
-
 					+ "\"path\": \"/login\"}";
 
 		}
