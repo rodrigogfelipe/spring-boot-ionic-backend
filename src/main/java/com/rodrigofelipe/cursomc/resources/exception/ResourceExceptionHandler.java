@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.rodrigofelipe.cursomc.services.exceptions.AuthorizationException;
 import com.rodrigofelipe.cursomc.services.exceptions.ObjectNotFoundException;
 
 /* Classe ResourceExceptionHandler*/
@@ -30,7 +31,8 @@ public class ResourceExceptionHandler {
 				System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
-	/*ResponseEntity<StandardError> exception na validação do campos */
+
+	/* ResponseEntity<StandardError> exception na validação do campos */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
 		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validação",
@@ -40,6 +42,13 @@ public class ResourceExceptionHandler {
 		}
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+
+	}
+	/*AuthorizationException e a excessao da JWTAuthorizationFilter*/
+	@ExceptionHandler(AuthorizationException.class)
+	public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+		StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 
 	}
 

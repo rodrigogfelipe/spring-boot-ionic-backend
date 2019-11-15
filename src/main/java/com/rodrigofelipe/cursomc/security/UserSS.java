@@ -81,4 +81,10 @@ public class UserSS implements UserDetails {
 		return true;
 
 	}
+	
+	/*hasRole vareficar se o usuário tem autorização de acesso ao sistema*/
+	public boolean hasRole(Perfil perfil) {
+		return getAuthorities().contains(new SimpleGrantedAuthority(perfil.getDescricao()));
+
+	}
 }
