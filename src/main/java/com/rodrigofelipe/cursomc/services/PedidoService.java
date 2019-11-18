@@ -86,9 +86,7 @@ public class PedidoService {
 		UserSS user = UserService.authenticated();
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
-
 		}
-
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		Cliente cliente = clienteService.find(user.getId());
 		return repo.findByCliente(cliente, pageRequest);

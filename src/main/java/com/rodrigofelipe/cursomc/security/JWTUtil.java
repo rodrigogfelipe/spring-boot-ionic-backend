@@ -26,7 +26,7 @@ public class JWTUtil {
 		return Jwts.builder().setSubject(username).setExpiration(new Date(System.currentTimeMillis() + expiration))
 				.signWith(SignatureAlgorithm.HS512, secret.getBytes()).compact();
 	}
-
+	/*Função tokenValido e a validação do token*/
 	public boolean tokenValido(String token) {
 		Claims claims = getClaims(token); /* Claims significaca reividicação do TOKEN, tempo de expiração do token */
 		if (claims != null) {

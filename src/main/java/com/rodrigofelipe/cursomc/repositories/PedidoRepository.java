@@ -10,11 +10,11 @@ import com.rodrigofelipe.cursomc.domain.Cliente;
 import com.rodrigofelipe.cursomc.domain.Pedido;
 
 /*CategoriaRepository acessar os dados  SALVAR, CONSULTAR no BD do obj classe Categoria */
+/*findByCliente buscar pedidos por clientes*/
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
-	
-	/*findByCliente buscar pedidos por clientes*/
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	Page<Pedido> findByCliente(Cliente cliente, Pageable pageRequest);
 
 }
