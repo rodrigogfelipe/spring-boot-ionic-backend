@@ -2,6 +2,7 @@ package com.rodrigofelipe.cursomc.config;
 
 import java.util.Arrays;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ import com.rodrigofelipe.cursomc.security.JWTAuthenticationFilter;
 import com.rodrigofelipe.cursomc.security.JWTAuthorizationFilter;
 import com.rodrigofelipe.cursomc.security.JWTUtil;
 
+/* SecurityConfig para definir as configurações de segurança */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) /* EnableGlobalMethodSecurity autoriza perfis especificos */

@@ -29,7 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.rodrigofelipe.cursomc.dto.CredenciaisDTO;
-
+/*Incluir as propriedades de JWT (segredo e tempo de expiração) em application.properties */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;

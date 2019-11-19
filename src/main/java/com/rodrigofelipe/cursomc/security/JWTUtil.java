@@ -9,6 +9,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+/* JWTUtil (@Component) com a operação String generateToken(String username) */
 @Component
 public class JWTUtil {
 	/*

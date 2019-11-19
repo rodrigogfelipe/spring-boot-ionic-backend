@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-
-
+/*Incluir as propriedades de JWT (segredo e tempo de expiração) em application.properties */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	/* Declarando a Classe JWTUtil */
