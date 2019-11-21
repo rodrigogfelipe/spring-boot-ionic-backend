@@ -63,6 +63,9 @@ public class Cliente implements Serializable {
 	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
+	
+	/*imageUrl guarda a imagem */
+	private String imageUrl;
 
 	// Declarando um construtor padrão
 	public Cliente() {
@@ -169,8 +172,8 @@ public class Cliente implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
-	/*SETTER da CLasse PErfil tipo ENUM GetPerfil*/
+
+	/* SETTER da CLasse PErfil tipo ENUM GetPerfil */
 	public Set<Perfil> getPerfis() {
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 
@@ -179,6 +182,14 @@ public class Cliente implements Serializable {
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
 
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
@@ -195,17 +206,13 @@ public class Cliente implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-
 		if (this == obj)
-
 			return true;
 
 		if (obj == null)
-
 			return false;
 
 		if (getClass() != obj.getClass())
-
 			return false;
 
 		Cliente other = (Cliente) obj;
