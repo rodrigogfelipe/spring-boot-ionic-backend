@@ -1,5 +1,6 @@
 package com.rodrigofelipe.cursomc.services;
 
+import java.net.URI;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rodrigofelipe.cursomc.domain.Cidade;
 import com.rodrigofelipe.cursomc.domain.Cliente;
@@ -31,22 +33,25 @@ public class ClienteService {
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+
 	@Autowired
 	private ClienteRepository repo;
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 
+	@Autowired
+	private S3Service s3Service;
+
 	/* SE obj ID for encontrado retorna ID, SE NAO return ObjectNotFoundException */
 	public Cliente find(Integer id) {
-		
+
 		UserSS user = UserService.authenticated();
-		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
 			throw new AuthorizationException("Acesso negado");
 
 		}
-		
+
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -133,6 +138,11 @@ public class ClienteService {
 	private void updateData(Cliente newObj, Cliente obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setEmail(obj.getEmail());
+
+	}
+	/*Metado uploadProfilePicture faz upload da foto*/
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3Service.uploadFile(multipartFile);
 
 	}
 }
