@@ -29,6 +29,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.rodrigofelipe.cursomc.dto.CredenciaisDTO;
+
 /*Incluir as propriedades de JWT (segredo e tempo de expiração) em application.properties */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -69,14 +70,16 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 
 	}
-	/*Metado successfulAuthentication gerar um TOKEN na requisição*/
+
+	/* Metado successfulAuthentication gerar um TOKEN na requisição */
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req,
 
-		HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
+			HttpServletResponse res, FilterChain chain, Authentication auth) throws IOException, ServletException {
 		String username = ((UserSS) auth.getPrincipal()).getUsername();
 		String token = jwtUtil.generateToken(username);
 		res.addHeader("Authorization", "Bearer " + token);
+		res.addHeader("access-control-expose-headers", "Authorization"); 
 
 	}
 
@@ -84,9 +87,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-				AuthenticationException exception)
-
-				throws IOException, ServletException {
+				AuthenticationException exception) throws IOException, ServletException {
 
 			response.setStatus(401);
 			response.setContentType("application/json");
@@ -95,14 +96,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 
 		private String json() {
-
 			long date = new Date().getTime();
-			return "{\"timestamp\": " + date + ", "
-					+ "\"status\": 401, "
-					+ "\"error\": \"Não autorizado\", "
-					+ "\"message\": \"Email ou senha inválidos\", "
-					+ "\"path\": \"/login\"}";
-
+			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
+					+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
 		}
 
 	}

@@ -37,6 +37,13 @@ public class ClienteResource {
 		Cliente obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public ResponseEntity<Cliente> find(@RequestParam(value = "value") String email) {
+		Cliente obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+
+	}
 
 	/* Metado para inserir dados no BD */
 	@RequestMapping(method = RequestMethod.POST)
@@ -91,7 +98,8 @@ public class ClienteResource {
 		Page<ClienteDTO> listDto = list.map(obj -> new ClienteDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
-	/*Metado uploadProfilePicture envia a foto do cliente*/
+
+	/* Metado uploadProfilePicture envia a foto do cliente */
 	@RequestMapping(value = "/picture", method = RequestMethod.POST)
 	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
 		URI uri = service.uploadProfilePicture(file);

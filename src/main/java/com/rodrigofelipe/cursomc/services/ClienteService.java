@@ -50,8 +50,8 @@ public class ClienteService {
 
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
-	
-	/*profile.size pertence propities definindo tamanho da image*/
+
+	/* profile.size pertence propities definindo tamanho da image */
 	@Value("${img.profile.size}")
 	private Integer size;
 
@@ -110,6 +110,23 @@ public class ClienteService {
 		return (java.util.List<Cliente>) repo.findAll();
 
 	}
+	
+	public Cliente findByEmail(String email) {
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !email.equals(user.getUsername())) {
+			throw new AuthorizationException("Acesso negado");
+
+		}
+
+		Cliente obj = repo.findByEmail(email);
+		if (obj == null) {
+			throw new ObjectNotFoundException(
+					"Objeto não encontrado! Id: " + user.getId() + ", Tipo: " + Cliente.class.getName());
+
+		}
+		return obj;
+
+	}
 
 	/*
 	 * Metado Page<Cliente> findPage ordenas todos os dados no BD, mostrando os
@@ -159,8 +176,8 @@ public class ClienteService {
 		}
 
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
-		
-		/*cropSquare tem a função de cortar a imagem deixando quadrada*/
+
+		/* cropSquare tem a função de cortar a imagem deixando quadrada */
 		jpgImage = imageService.cropSquare(jpgImage);
 		jpgImage = imageService.resize(jpgImage, size);
 
