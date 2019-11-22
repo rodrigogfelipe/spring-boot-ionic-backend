@@ -44,12 +44,16 @@ public class ClienteService {
 
 	@Autowired
 	private S3Service s3Service;
-	/*Declarando obj da Classe ImageService*/
+	/* Declarando obj da Classe ImageService */
 	@Autowired
 	private ImageService imageService;
 
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
+	
+	/*profile.size pertence propities definindo tamanho da image*/
+	@Value("${img.profile.size}")
+	private Integer size;
 
 	/* SE obj ID for encontrado retorna ID, SE NAO return ObjectNotFoundException */
 	public Cliente find(Integer id) {
@@ -133,12 +137,10 @@ public class ClienteService {
 			cli.getTelefones().add(objDto.getTelefone2());
 
 		}
-
 		if (objDto.getTelefone3() != null) {
 			cli.getTelefones().add(objDto.getTelefone3());
 
 		}
-
 		return cli;
 
 	}
@@ -155,9 +157,13 @@ public class ClienteService {
 		if (user == null) {
 			throw new AuthorizationException("Acesso negado");
 		}
-		
+
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
 		
+		/*cropSquare tem a função de cortar a imagem deixando quadrada*/
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
+
 		String fileName = prefix + user.getId() + ".jpg";
 		return s3Service.uploadFile(imageService.getInputStream(jpgImage, "jpg"), fileName, "image");
 	}
