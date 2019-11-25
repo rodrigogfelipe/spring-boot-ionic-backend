@@ -40,7 +40,7 @@ public class CategoriaResource {
 	}
 
 	/* Metado para inserir dados no BD */
-	@PreAuthorize("hasAnyRole('ADMIN')") /*@PreAuthorize permite somente o ADMIN inserir dados*/
+	//@PreAuthorize("hasAnyRole('ADMIN')") /*@PreAuthorize permite somente o ADMIN inserir dados*/
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		Categoria obj = service.fromDTO(objDto);
@@ -51,7 +51,7 @@ public class CategoriaResource {
 	}
 
 	/* Metado para atualizar (UPDATE) dados no BD */
-	//@PreAuthorize("hasAnyRole('ADMIN')"). Essa função foi retirada por não deixar permitir update da Classe Caategoria
+	//@PreAuthorize("hasAnyRole('ADMIN')") /*Essa função foi retirada por não deixar permitir update da Classe Caategoria*/
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDto);
