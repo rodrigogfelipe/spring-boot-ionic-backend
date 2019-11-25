@@ -51,7 +51,7 @@ public class CategoriaResource {
 	}
 
 	/* Metado para atualizar (UPDATE) dados no BD */
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	//@PreAuthorize("hasAnyRole('ADMIN')"). Essa função foi retirada por não deixar permitir update da Classe Caategoria
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDto);
