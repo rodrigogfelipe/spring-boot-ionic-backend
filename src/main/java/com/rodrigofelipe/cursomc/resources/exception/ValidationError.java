@@ -1,17 +1,17 @@
 package com.rodrigofelipe.cursomc.resources.exception;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
+/*Validacao de erro*/
 public class ValidationError extends StandardError {
 	private static final long serialVersionUID = 1L;
-	
-	/*Declarando um lista da Classe FieldMEssage*/
+
+	/* Declarando um lista da Classe FieldMEssage */
 	private List<FieldMessage> errors = new ArrayList<>();
 
-	public ValidationError(Integer status, String msg, Long timeStamp) {
-		super(status, msg, timeStamp);
+	public ValidationError(Long timestamp, Integer status, String error, String message, String path) {
+		super(timestamp, status, error, message, path);
 
 	}
 
