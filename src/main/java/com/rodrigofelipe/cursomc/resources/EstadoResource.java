@@ -34,7 +34,7 @@ public class EstadoResource {
 		return ResponseEntity.ok().body(listDto);
 
 	}
-
+	/*endpoint para obter estados*/
 	@RequestMapping(value = "/{estadoId}/cidades", method = RequestMethod.GET)
 	public ResponseEntity<List<CidadeDTO>> findCidades(@PathVariable Integer estadoId) {
 		List<Cidade> list = cidadeService.findByEstado(estadoId);

@@ -29,7 +29,6 @@ public enum EstadoPagamento {
 	 */
 
 	public static EstadoPagamento toEnum(Integer cod) { /* SE o cod for igual a NULL, retorn NULL */
-
 		if (cod == null) {
 			return null;
 		}
